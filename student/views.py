@@ -1,6 +1,4 @@
-from requests import Response
 from rest_framework.generics import ListAPIView
-from rest_framework.parsers import FileUploadParser
 
 
 class UserView(ListAPIView):
@@ -8,26 +6,13 @@ class UserView(ListAPIView):
     from rest_framework.filters import SearchFilter
     from django_filters.rest_framework.backends import DjangoFilterBackend
 
-    from .models import User
-    from .serializers import UserSerializer
+    from .models import Student
+    from .serializers import StudentSerializer
 
     permission_classes = (AllowAny, )
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
     filter_backends = (SearchFilter, DjangoFilterBackend, )
     filter_fields = ('card_no', 'erp', )
     search_fields = ('id', 'card_no', 'erp', )
-
-
-class ExcelView(ListAPIView):
-    parser_classes = (FileUploadParser, )
-
-    @staticmethod
-    def post(request):
-        file = request.FILES['file']
-
-        destination = open()
-
-        return Response()
-
