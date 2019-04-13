@@ -4,9 +4,9 @@ from django.utils.text import gettext_lazy as _
 from student.models import Student
 
 
-class CheckIn(models.Model):
-    check_in_date = models.DateTimeField(_('Create Date/Time'), auto_now_add=True)
-    card_no = models.ForeignKey(to=Student, on_delete=models.PROTECT, verbose_name=_("Card Number"))
+class InsideLaundry(models.Model):
+    check_in_date = models.DateTimeField(_('Check In Date'), auto_now_add=True)
+    card_no = models.OneToOneField(to=Student, on_delete=models.PROTECT, verbose_name=_("Card Number"))
     clothes = models.IntegerField(verbose_name=_('Number of Clothes'), default=15)
 
     class Meta:
@@ -15,12 +15,18 @@ class CheckIn(models.Model):
         verbose_name_plural = verbose_name
 
 
-class CheckOut(models.Model):
-    check_out_date = models.DateTimeField(_('Create Date/Time'), auto_now_add=True)
+class LaundryCirculation(models.Model):
     card_no = models.ForeignKey(to=Student, on_delete=models.PROTECT, verbose_name=_("Card Number"))
-    clothes = models.IntegerField(verbose_name=_('Number of Clothes'), default=15)
+    check_out_date = models.DateTimeField(_('Check Out Date'), auto_now_add=True)
+
+    @property
+    def clothes(self):
+        return InsideLaundry.objects.get(card_no=self.card_no).clothes
+
+    @property
+    def check_in_date(self):
+        return InsideLaundry.objects.get(card_no=self.card_no).check_in_date
 
     class Meta:
-        ordering = ['-check_out_date']
-        verbose_name = _('Check Out')
+        verbose_name = _('Laundry Circulation')
         verbose_name_plural = verbose_name

@@ -1,54 +1,41 @@
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
+
+from circulation.models import InsideLaundry
 
 
-class CheckInListView(ListCreateAPIView):
+class InsideLaundryListView(CreateAPIView):
     from rest_framework.permissions import AllowAny
-    from rest_framework.filters import SearchFilter
-    from django_filters.rest_framework.backends import DjangoFilterBackend
-
-    from .models import CheckIn
-    from .serializers import CheckInSerializer
+    from .serializers import InsideLaundrySerializer
 
     permission_classes = (AllowAny,)
-    queryset = CheckIn.objects.all()
-    serializer_class = CheckInSerializer
-
-    filter_backends = (SearchFilter, DjangoFilterBackend,)
-    filter_fields = ('card_no', 'check_in_date',)
-    search_fields = ('id', 'card_no', 'check_in_date',)
+    queryset = InsideLaundry.objects.all()
+    serializer_class = InsideLaundrySerializer
 
     def perform_create(self, serializer):
-        from .models import CheckIn
-
-        check_in_data = CheckIn.objects.create(
+        check_in_data = InsideLaundry.objects.create(
             card_no=serializer.validated_data['card_no'],
             clothes=serializer.validated_data['clothes'])
 
         return self.get_serializer(check_in_data)
 
 
-class CheckOutListView(ListCreateAPIView):
+class LaundryCirculationView(CreateAPIView):
     from rest_framework.permissions import AllowAny
-    from rest_framework.filters import SearchFilter
-    from django_filters.rest_framework.backends import DjangoFilterBackend
 
-    from .models import CheckOut
-    from .serializers import CheckOutSerializer
+    from .models import LaundryCirculation
+    from .serializers import LaundryCirculationSerializer
 
-    permission_classes = (AllowAny,)
-    queryset = CheckOut.objects.all()
-    serializer_class = CheckOutSerializer
+    permission_classes = (AllowAny, )
+    queryset = LaundryCirculation.objects.all()
+    serializer_class = LaundryCirculationSerializer
 
-    filter_backends = (SearchFilter, DjangoFilterBackend,)
-    filter_fields = ('card_no', 'check_out_date',)
-    search_fields = ('id', 'card_no', 'check_out_date',)
 
-    def perform_create(self, serializer):
-        from .models import CheckOut
+class LaundryCirculationListView(ListAPIView):
+    from rest_framework.permissions import AllowAny
 
-        check_in_data = CheckOut.objects.create(
-            check_out_date=serializer.validated_data['check_out_date'],
-            card_no=serializer.validated_data['card_no'],
-            clothes=serializer.validated_data['clothes'], )
+    from .models import LaundryCirculation
+    from .serializers import LaundryListSerializer
 
-        return self.get_serializer(check_in_data)
+    permission_classes = (AllowAny, )
+    queryset = LaundryCirculation.objects.all()
+    serializer_class = LaundryListSerializer

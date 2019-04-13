@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CheckIn, CheckOut
+from .models import InsideLaundry, LaundryCirculation
 
-admin.site.register(CheckIn)
-admin.site.register(CheckOut)
+admin.site.register(InsideLaundry)
+admin.site.register(LaundryCirculation)
