@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from .local_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -167,3 +166,21 @@ USE_TZ = True
 PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static/')
 STATIC_URL = '/static/'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '13.233.179.130',
+        'NAME': 'Laundry',
+        'USER': 'mahen',
+        'PASSWORD': '#imlegend19'
+    }
+}
+
+ALLOWED_HOSTS = ['127.0.0.1', '13.179.233.130', 'localhost']
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '^mpx4qae!dadq3u4a99n%$jct+d%ere*s!*=yvx$fsq^1rto5!'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
