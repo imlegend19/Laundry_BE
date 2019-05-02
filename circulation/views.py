@@ -1,11 +1,11 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, UpdateAPIView, CreateAPIView
 
 from circulation.models import InsideLaundry
+from .serializers import InsideLaundrySerializer
 
 
-class InsideLaundryListView(CreateAPIView):
+class InsideLaundryListView(ListCreateAPIView):
     from rest_framework.permissions import AllowAny
-    from .serializers import InsideLaundrySerializer
 
     permission_classes = (AllowAny,)
     queryset = InsideLaundry.objects.all()
@@ -17,6 +17,14 @@ class InsideLaundryListView(CreateAPIView):
             clothes=serializer.validated_data['clothes'])
 
         return self.get_serializer(check_in_data)
+
+
+class InsideLaundryView(UpdateAPIView):
+    from rest_framework.permissions import AllowAny
+
+    permission_classes = (AllowAny,)
+    queryset = InsideLaundry.objects.all()
+    serializer_class = InsideLaundrySerializer
 
 
 class LaundryCirculationView(CreateAPIView):

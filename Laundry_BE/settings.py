@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import Laundry_BE.local_settings
+from Laundry_BE.local_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'circulation',
     'rest_framework',
     'django_filters',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
@@ -164,6 +165,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
